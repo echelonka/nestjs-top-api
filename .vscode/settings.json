@@ -1,4 +1,11 @@
 {
     "javascript.preferences.quoteStyle": "single",
-    "typescript.preferences.quoteStyle": "single"
+    "typescript.preferences.quoteStyle": "single",
+    "eslint.format.enable": true,
+    "eslint.run": "onSave",
+    "prettier.enable": false,
+    "editor.tabSize": 2,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    }
 }
