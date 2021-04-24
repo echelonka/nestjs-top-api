@@ -18,8 +18,12 @@ export class ReviewService {
     else return null;
   }
 
-  async findByProductId(productId: string): Promise<DocumentType<ReviewModel>[]> {
-    return this.reviewModel.find({ productId: Types.ObjectId(productId) }).exec();
+  async findByProductId(productId: string): Promise<DocumentType<ReviewModel>[] | null> {
+    if (Types.ObjectId.isValid(productId)) {
+      return this.reviewModel.find({ productId: Types.ObjectId(productId) }).exec();
+    } else {
+      return null;
+    }
   }
 
   async deleteByProductId(productId: string) {
