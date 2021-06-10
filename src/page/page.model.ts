@@ -30,9 +30,7 @@ export class Advantage {
   description: string;
 }
 
-// @ts-ignore
 export interface PageModel extends Base { }
-// @ts-ignore
 export class PageModel extends TimeStamps {
   @prop({ enum: TopLevelCategory, type: () => Number })
   firstCategory: TopLevelCategory;
