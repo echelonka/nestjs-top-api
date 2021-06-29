@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiTags } from '@nestjs/swagger';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { PRODUCT_REVIEWS_NOT_FOUND, REVIEW_NOT_FOUND } from './review.constants';
@@ -10,6 +10,7 @@ export class ReviewController {
   constructor(private readonly reviewService: ReviewService) { }
 
   @ApiTags('Review')
+  @UsePipes(new ValidationPipe())
   @Post()
   @ApiCreatedResponse({ type: ReviewModel })
   async create(@Body() body: CreateReviewDto) {

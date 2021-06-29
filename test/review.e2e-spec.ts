@@ -29,8 +29,8 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/review (POST)', async (done) => {
-    return request(app.getHttpServer())
+  it('/review (POST)', (done) => {
+    request(app.getHttpServer())
       .post('/review')
       .send(testDto)
       .expect(201)
@@ -41,8 +41,36 @@ describe('AppController (e2e)', () => {
       });
   });
 
-  it('/review/product/:productId (GET)', async (done) => {
+  it('/review (POST) - fails if rating is less than 1', () => {
     return request(app.getHttpServer())
+      .post('/review')
+      .send({ ...testDto, rating: 0 } as CreateReviewDto)
+      .expect(400);
+  });
+
+  it('/review (POST) - fails if rating is greater than 5', () => {
+    return request(app.getHttpServer())
+      .post('/review')
+      .send({ ...testDto, rating: 6 } as CreateReviewDto)
+      .expect(400);
+  });
+
+  it('/review (POST) - fails if rating is a float number', () => {
+    return request(app.getHttpServer())
+      .post('/review')
+      .send({ ...testDto, rating: 1.5 } as CreateReviewDto)
+      .expect(400);
+  });
+
+  it('/review (POST) - fails if product ID is not a MongoDB ID', () => {
+    return request(app.getHttpServer())
+      .post('/review')
+      .send({ ...testDto, productId: "123" } as CreateReviewDto)
+      .expect(400);
+  });
+
+  it('/review/product/:productId (GET)', (done) => {
+    request(app.getHttpServer())
       .get(`/review/product/${productId}`)
       .expect(200)
       .then(({ body }: request.Response) => {
